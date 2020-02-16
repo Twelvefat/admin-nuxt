@@ -4,8 +4,16 @@
     <div class="logo" />
     <a-menu theme="light" :defaultSelectedKeys="['1']" mode="inline">
       <a-menu-item  key="1">
-        <a-icon type="layout" />
-        <span><nuxt-link to="/">Dashboard</nuxt-link></span>
+        <nuxt-link to="/">
+          <a-icon type="layout" />
+          <span>Dashboard</span>
+        </nuxt-link>
+      </a-menu-item>
+      <a-menu-item  key="2">
+        <nuxt-link to="/admin/user/create">
+          <a-icon type="user" />
+          <span>User</span>
+        </nuxt-link>
       </a-menu-item>
       <a-sub-menu key="sub2">
         <span slot="title"><a-icon type="lock" /><span>Permission & Role </span></span>
@@ -22,9 +30,7 @@
   <a-layout>
     <!-- <a-layout-header style="background: #fff; padding: 0" /> -->
     <a-layout-content style="margin: 0 16px">
-      <div>
         <nuxt />
-      </div>
     </a-layout-content>
     <a-layout-footer style="text-align: center">
       Rizal Fatahillah ©2018 Created by Ant UED
@@ -44,6 +50,7 @@ export default {
 </script>
 
 <style scoped>
+
 
 #components-layout-demo-side .logo {
   height: 32px;

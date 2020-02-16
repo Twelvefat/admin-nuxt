@@ -67,7 +67,6 @@ export default {
       less: {
         modifyVars: {
           'primary-color': '#1DA57A',
-          'link-color': '#1DA57A',
           'layout-header-background': '#FFFFFF',
           'layout-trigger-background':'#1DA57A'
         },
