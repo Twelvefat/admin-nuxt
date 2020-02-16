@@ -23,7 +23,9 @@ export default {
   ** Global CSS
   */
   css: [
-    'ant-design-vue/dist/antd.css'
+    // 'ant-design-vue/dist/antd.css',
+    '~/assets/global.css',
+    { src: 'ant-design-vue/dist/antd.less', lang: 'less' }
   ],
   /*
   ** Plugins to load before mounting the App
@@ -60,6 +62,17 @@ export default {
     ** You can extend webpack config here
     */
     extend (config, ctx) {
+    },
+    loaders: {
+      less: {
+        modifyVars: {
+          'primary-color': '#1DA57A',
+          'link-color': '#1DA57A',
+          'layout-header-background': '#FFFFFF',
+          'layout-trigger-background':'#1DA57A'
+        },
+        javascriptEnabled: true
+      }
     }
   }
 }
