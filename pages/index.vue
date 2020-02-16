@@ -8,15 +8,18 @@
 import Logo from '~/components/Logo.vue'
 import {mapState, mapGetters, mapMutations} from 'vuex'
 export default {
+  fetch(){
+    // if(!this.user && !this.token){
+    //   $nuxt.$router.replace({path: 'auth/login'})
+    // }
+  },
   head: {
     title: 'Dashboard'
   },
-  components: {
-    Logo
-  },
   computed: {
     ...mapGetters({
-      user:'user/user'
+      user:'user/user',
+      token:'user/token',
     })
   },
   methods:{
