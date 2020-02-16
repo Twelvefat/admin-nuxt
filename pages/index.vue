@@ -1,18 +1,28 @@
 <template>
   <div class="container">
-    <a-button type="primary">Primary</a-button>
+    <a-button type="primary" @click="increment">Primary {{user}} </a-button>
   </div>
 </template>
 
 <script>
 import Logo from '~/components/Logo.vue'
-
+import {mapState, mapGetters, mapMutations} from 'vuex'
 export default {
   head: {
     title: 'Dashboard'
   },
   components: {
     Logo
+  },
+  computed: {
+    ...mapGetters({
+      user:'user/user'
+    })
+  },
+  methods:{
+    ...mapMutations({
+      increment: 'user/increments'
+    })
   }
 }
 </script>
