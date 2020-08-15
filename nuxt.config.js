@@ -53,6 +53,7 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+    baseUrl: 'http://admin-laravel.test/api'
   },
   /*
   ** Build configuration
