@@ -36,12 +36,6 @@ export default {
         width: '20%',
       },
       {
-        title:'Email',
-        dataIndex: 'email',
-        sorter: true,
-        width:'20%',
-      },
-      {
         title: 'Created At',
         dataIndex: 'created_at',
         scopedSlots: { customRender: 'created_at' },
@@ -72,17 +66,26 @@ export default {
       });
     },
     onDelete(key) {
-      const data = [...this.data];
-      this.data = data.filter(item => item.id !== key);
+      this.$axios.delete(`/role/${key}`).then(res => {
+        this.fetch({
+          page: this.pagination.current
+        });
+      }).catch(err => {
+        console.log(err);
+      });
     },
     fetch(params = {}) {
       this.loading = true
-      this.$axios.get('/user').then(res => {
-          const pagination = {...this.pagination}
-          pagination.total = res.data.total
-          this.loading = false
-          this.data = res.data.data
-          this.pagination = pagination
+      this.$axios.get('/role',{
+        params: {
+          ...params
+        }
+      }).then(res => {
+          const pagination = {...this.pagination};
+          pagination.total = res.data.total;
+          this.loading = false;
+          this.data = res.data.data;
+          this.pagination = pagination;
       })
     }
   }

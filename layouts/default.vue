@@ -19,8 +19,8 @@
         </a-menu-item>
         <a-sub-menu key="sub1">
           <span slot="title"><a-icon type="lock" /><span>Permission & Role</span></span>
-          <a-menu-item key="3"><nuxt-link to="/">Permission</nuxt-link></a-menu-item>
-          <a-menu-item key="4"><nuxt-link to="/">Role</nuxt-link></a-menu-item>
+          <a-menu-item key="3"><nuxt-link to="/admin/permission">Permission</nuxt-link></a-menu-item>
+          <a-menu-item key="4"><nuxt-link to="/admin/role">Role</nuxt-link></a-menu-item>
         </a-sub-menu>
         <a-sub-menu key="sub2">
           <span slot="title"><a-icon type="file" /><span>Log</span></span>
@@ -84,7 +84,6 @@
 
 <script>
 import DrawerNotification from '~/components/DrawerNotification.vue'
-
 export default {
   data() {
     return {
