@@ -44,9 +44,12 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
+
 export default {
   layout:'auth',
   data() {
@@ -79,16 +82,12 @@ export default {
       e.preventDefault();
       this.form.validateFields(async (err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values);
           try {
             await this.$auth.loginWith('local', {
               data: {
                 email: values.email,
                 password: values.password
               }
-            }).then(res => {
-              console.log(res)
-              this.$toast.success('Logged In!')
             })
           }catch(e){
             console.log(e)
