@@ -37,6 +37,7 @@ export default {
   ** Nuxt.js dev-modules
   */
   buildModules: [
+    '@nuxtjs/moment'
   ],
   /*
   ** Nuxt.js modules
@@ -49,6 +50,9 @@ export default {
     '@nuxtjs/dotenv',
     '@nuxtjs/auth'
   ],
+  moment: {
+    locales: ['id']
+  },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
