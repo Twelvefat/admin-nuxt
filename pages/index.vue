@@ -1,16 +1,13 @@
 <template>
   <div class="container">
-    <a-button type="primary">Primary</a-button>
+    <a-button type="primary">Primary </a-button>
   </div>
 </template>
 
 <script>
 import Logo from '~/components/Logo.vue'
-
 export default {
-  components: {
-    Logo
-  }
+
 }
 </script>
 

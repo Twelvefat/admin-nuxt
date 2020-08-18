@@ -18,12 +18,14 @@ export default {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: '#1DA57A' },
   /*
   ** Global CSS
   */
   css: [
-    'ant-design-vue/dist/antd.css'
+    // 'ant-design-vue/dist/antd.css',
+    '~/assets/global.css',
+    { src: 'ant-design-vue/dist/antd.less', lang: 'less' }
   ],
   /*
   ** Plugins to load before mounting the App
@@ -35,6 +37,7 @@ export default {
   ** Nuxt.js dev-modules
   */
   buildModules: [
+    '@nuxtjs/moment'
   ],
   /*
   ** Nuxt.js modules
@@ -45,12 +48,55 @@ export default {
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
+    '@nuxtjs/auth'
   ],
+  moment: {
+    locales: ['id']
+  },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+    baseURL: process.env.BASE_URL || 'http://192.168.100.4:8000/api/v1',
+  },
+  router: {
+    middleware: ['auth']
+  },
+  auth: {
+    redirect: {
+      login: '/login',
+      home: '/',
+      logout: '/login'
+    },
+    localStorage: false,
+    cookie: {
+      options: {
+        expires: 7
+      }
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/login',
+            method: 'post',
+            propertyName: 'token'
+          },
+          user: {
+            url: '/me',
+            method: 'get',
+            propertyName: 'user'
+          },
+          logout: {
+            url:'/logout',
+            method: 'get'
+          },
+        },
+        tokenRequired:true,
+        tokenType:'Bearer'
+      }
+    },
   },
   /*
   ** Build configuration
@@ -60,6 +106,16 @@ export default {
     ** You can extend webpack config here
     */
     extend (config, ctx) {
+    },
+    loaders: {
+      less: {
+        modifyVars: {
+          'primary-color': '#1DA57A',
+          'layout-header-background': '#FFFFFF',
+          'layout-trigger-background':'#1DA57A'
+        },
+        javascriptEnabled: true
+      }
     }
   }
 }

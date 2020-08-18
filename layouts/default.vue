@@ -1,37 +1,74 @@
 <template>
-<a-layout id="components-layout-demo-side" style="min-height: 100vh">
+<div>
+
+  <a-layout id="components-layout-demo-side" style="min-height: 100vh">
     <a-layout-sider collapsible v-model="collapsed">
       <div class="logo" />
-      <a-menu theme="dark" :defaultSelectedKeys="['1']" mode="inline">
+      <a-menu theme="light" :defaultSelectedKeys="['1']" mode="inline">
         <a-menu-item key="1">
-          <a-icon type="pie-chart" />
-          <span>Option 1</span>
+          <nuxt-link to="/">
+            <a-icon type="layout" />
+            <span>Dashboard</span>
+          </nuxt-link>
         </a-menu-item>
         <a-menu-item key="2">
-          <a-icon type="desktop" />
-          <span>Option 2</span>
+          <nuxt-link to="/admin/user">
+            <a-icon type="user" />
+            <span>User</span>
+          </nuxt-link>
         </a-menu-item>
         <a-sub-menu key="sub1">
-          <span slot="title"><a-icon type="user" /><span>User</span></span>
-          <a-menu-item key="3">Tom</a-menu-item>
-          <a-menu-item key="4">Bill</a-menu-item>
-          <a-menu-item key="5">Alex</a-menu-item>
+          <span slot="title"><a-icon type="lock" /><span>Permission & Role</span></span>
+          <a-menu-item key="3"><nuxt-link to="/admin/permission">Permission</nuxt-link></a-menu-item>
+          <a-menu-item key="4"><nuxt-link to="/admin/role">Role</nuxt-link></a-menu-item>
         </a-sub-menu>
         <a-sub-menu key="sub2">
-          <span slot="title"><a-icon type="team" /><span>Team</span></span>
-          <a-menu-item key="6">Team 1</a-menu-item>
-          <a-menu-item key="8">Team 2</a-menu-item>
+          <span slot="title"><a-icon type="file" /><span>Log</span></span>
+          <a-menu-item key="6"><nuxt-link to="/">Activity</nuxt-link></a-menu-item>
+          <a-menu-item key="8"><nuxt-link to="/">User</nuxt-link></a-menu-item>
         </a-sub-menu>
-        <a-menu-item key="9">
-          <a-icon type="file" />
-          <span>File</span>
-        </a-menu-item>
       </a-menu>
     </a-layout-sider>
     <a-layout>
-      <a-layout-header style="background: #fff; padding: 0" />
-      <a-layout-content style="margin: 0 16px">
-        <div>
+      <a-layout-header>
+        <a-menu
+          theme="light"
+          mode="horizontal"
+          :style="{ lineHeight: '64px', float:'right' }"
+        >
+          <a-menu-item key="bell" @click="clickDrawer" >
+            <div>
+              <a-icon type="bell" :style="{ fontSize: '20px' }" />
+            </div>
+          </a-menu-item>
+          <a-sub-menu key="3">
+            <span slot="title" class="submenu-title-wrapper">
+              <a-avatar size="large" src="https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png" />
+              {{$auth.user.name}}
+            </span>
+              <a-menu-item key="profile">
+                <span>
+                  <a-icon type="user" />
+                  Profile
+                </span>
+              </a-menu-item>
+              <a-menu-item key="setting">
+                <span>
+                  <a-icon type="setting" />
+                  Setting
+                </span>
+              </a-menu-item>
+              <a-menu-item key="logout" @click="logout">
+                <span>
+                  <a-icon type="logout" />
+                  Logout
+                </span>
+              </a-menu-item>
+          </a-sub-menu>
+        </a-menu>
+      </a-layout-header>
+      <a-layout-content style="margin: 20px 16px;">
+        <div :style="{ padding: '24px', background: '#fff', minHeight: '360px', marginTop:20, borderRadius:'5px'}">
           <nuxt />
         </div>
       </a-layout-content>
@@ -40,70 +77,37 @@
       </a-layout-footer>
     </a-layout>
   </a-layout>
+  <!-- Drawer -->
+  <DrawerNotification ref="drawerNotification" />
+</div>
 </template>
 
 <script>
+import DrawerNotification from '~/components/DrawerNotification.vue'
 export default {
   data() {
     return {
       collapsed: false,
     };
   },
+  components:{
+    DrawerNotification
+  },
+  methods: {
+    clickDrawer(){
+      this.$refs.drawerNotification.showDrawer()
+    },
+    logout(){
+      this.$auth.logout()
+    }
+  }
 };
 </script>
 
-<style>
-html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-  margin: 0;
-}
-
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
-}
-
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
-}
-
+<style scoped>
 #components-layout-demo-side .logo {
   height: 32px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgb(49, 49, 49);
   margin: 16px;
 }
 </style>
