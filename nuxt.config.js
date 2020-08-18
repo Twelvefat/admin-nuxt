@@ -47,13 +47,52 @@ export default {
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
+    '@nuxtjs/auth'
   ],
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseUrl: 'http://admin-laravel.test/api'
+    baseURL: process.env.BASE_URL || 'http://192.168.100.4:8000/api/v1',
+  },
+  router: {
+    middleware: ['auth']
+  },
+  auth: {
+    redirect: {
+      login: '/login',
+      home: '/',
+      logout: '/login'
+    },
+    localStorage: false,
+    cookie: {
+      options: {
+        expires: 7
+      }
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/login',
+            method: 'post',
+            propertyName: 'token'
+          },
+          user: {
+            url: '/me',
+            method: 'get',
+            propertyName: 'user'
+          },
+          logout: {
+            url:'/logout',
+            method: 'get'
+          },
+        },
+        tokenRequired:true,
+        tokenType:'Bearer'
+      }
+    },
   },
   /*
   ** Build configuration

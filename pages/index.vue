@@ -1,32 +1,13 @@
 <template>
   <div class="container">
-    <a-button type="primary" @click="increment">Primary {{user}} </a-button>
+    <a-button type="primary">Primary </a-button>
   </div>
 </template>
 
 <script>
 import Logo from '~/components/Logo.vue'
-import {mapState, mapGetters, mapMutations} from 'vuex'
 export default {
-  fetch(){
-    // if(!this.user && !this.token){
-    //   $nuxt.$router.replace({path: 'auth/login'})
-    // }
-  },
-  head: {
-    title: 'Dashboard'
-  },
-  computed: {
-    ...mapGetters({
-      user:'user/user',
-      token:'user/token',
-    })
-  },
-  methods:{
-    ...mapMutations({
-      increment: 'user/increments'
-    })
-  }
+
 }
 </script>
 
