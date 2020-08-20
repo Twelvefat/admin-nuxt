@@ -1,5 +1,8 @@
 <template>
   <div>
+    <nuxt-link to="/admin/user/create" type="primary" icon="user-add" :style="{marginBottom: '20px'}">
+      Add User
+    </nuxt-link>
     <a-table
       :columns="columns"
       :row-key="record => record.id"
@@ -44,6 +47,7 @@ export default {
       {
         title: 'Created At',
         dataIndex: 'created_at',
+        sorter: true,
         scopedSlots: { customRender: 'created_at' },
       },
       {
@@ -72,17 +76,32 @@ export default {
       });
     },
     onDelete(key) {
-      const data = [...this.data];
-      this.data = data.filter(item => item.id !== key);
+
+      this.$axios.delete(`/user/${key}`).then(res => {
+        let page = this.pagination.current
+        let total = this.pagination.total - 1
+        if(total%10 === 0){
+          page = this.pagination.current - 1
+        }
+        this.fetch({
+          page: page
+        });
+      }).catch(err => {
+        console.log(err);
+      });
     },
     fetch(params = {}) {
       this.loading = true
-      this.$axios.get('/user').then(res => {
-          const pagination = {...this.pagination}
-          pagination.total = res.data.total
-          this.loading = false
-          this.data = res.data.data
-          this.pagination = pagination
+      this.$axios.get('/user',{
+        params: {
+          ...params
+        }
+      }).then(res => {
+          const pagination = {...this.pagination};
+          pagination.total = res.data.total;
+          this.loading = false;
+          this.data = res.data.data;
+          this.pagination = pagination;
       })
     }
   }
