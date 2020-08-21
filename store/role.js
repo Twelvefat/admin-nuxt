@@ -23,5 +23,22 @@ export const actions = {
         reject(e)
       })
     })
-  }
+  },
+  UPDATE_ROLE({commit}, payload){
+    return new Promise((resolve, reject) => {
+      this.$axios.post(`/role/${payload.id}`,{
+        _method:'PATCH',
+        name: payload.name,
+        permission: payload.permissions_check
+      }).then(res => {
+        resolve(res)
+      }).catch(e => {
+        if(e.response.status === 422){
+          commit('SET_ERROR', e.response.data.errors)
+        }
+        reject(e)
+      })
+    })
+  },
+
 }
