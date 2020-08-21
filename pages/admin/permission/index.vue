@@ -1,5 +1,16 @@
 <template>
   <div>
+    <div :style="{marginBottom:'30px'}">
+      <a-breadcrumb>
+        <a-breadcrumb-item>
+          <nuxt-link to="/">
+            <a-icon type="home" />
+            <span :style="{marginLeft:'5px'}">Dashboard</span>
+          </nuxt-link>
+        </a-breadcrumb-item>
+        <a-breadcrumb-item>Permissions</a-breadcrumb-item>
+      </a-breadcrumb>
+    </div>
     <a-table
       :columns="columns"
       :row-key="record => record.id"
@@ -26,6 +37,11 @@
 
 <script>
 export default {
+  head(){
+    return{
+      title:'Permissions'
+    }
+  },
   data: () => ({
     data:[],
     columns: [

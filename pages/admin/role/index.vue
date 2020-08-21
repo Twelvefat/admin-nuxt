@@ -1,8 +1,21 @@
 <template>
   <div>
-    <nuxt-link to="/admin/role/create" type="primary" icon="user-add" :style="{marginBottom: '20px'}">
-      Add Role
-    </nuxt-link>
+    <div :style="{marginBottom:'30px'}">
+        <a-breadcrumb>
+          <a-breadcrumb-item>
+            <nuxt-link to="/">
+              <a-icon type="home" />
+              <span :style="{marginLeft:'5px'}">Dashboard</span>
+            </nuxt-link>
+          </a-breadcrumb-item>
+          <a-breadcrumb-item>Role</a-breadcrumb-item>
+        </a-breadcrumb>
+    </div>
+    <div :style="{marginBottom:'30px'}">
+      <nuxt-link to="/admin/role/create" type="primary" icon="user-add" :style="{marginBottom: '20px'}">
+        Create Role
+      </nuxt-link>
+    </div>
     <a-table
       :columns="columns"
       :row-key="record => record.id"
@@ -15,7 +28,10 @@
         {{$moment(created_at).format('dddd, DD MMMM YYYY')}}
       </template>
       <template slot="operation" slot-scope="text, record">
-        <nuxt-link :to="`/admin/role/${record.id}`">
+        <a @click="showModal(record.id)" :style="{marginRight:'10px'}" title="Edit">
+          <a-icon type="profile" class="cursor-pointer" :style="{color:'#000000'}" />
+        </a>
+        <nuxt-link :to="`/admin/role/${record.id}`" :style="{marginRight:'10px'}" title="Detail">
           <a-icon type="edit" class="cursor-pointer" :style="{color:'#000000'}" />
         </nuxt-link>
         <a-popconfirm
@@ -27,10 +43,14 @@
         </a-popconfirm>
       </template>
     </a-table>
+    <ModalDetail :visible="visibleModal" :data="dataModal"/>
   </div>
 </template>
 
 <script>
+
+import ModalDetail from '~/components/partials/role/ModalDetail.vue'
+
 export default {
   data: () => ({
     data:[],
@@ -47,14 +67,19 @@ export default {
         scopedSlots: { customRender: 'created_at' },
       },
       {
-        title: 'Operation',
+        title: 'Action',
         dataIndex: 'operation',
         scopedSlots: { customRender: 'operation' },
       },
     ],
     pagination:{},
     loading:false,
+    visibleModal:false,
+    dataModal:{}
   }),
+  components:{
+    ModalDetail,
+  },
   mounted(){
     this.fetch()
   },
@@ -101,6 +126,18 @@ export default {
           this.pagination = pagination;
       }).catch(e => {
         return this.$nuxt.error({statusCode: e.response.status, message: e.response.data.message})
+      })
+    },
+    showModal(id){
+      this.visibleModal = true
+      this.$axios.get(`/role/${id}`).then(res => {
+        // Get Role Permissions
+        this.dataModal = {
+          name: res.data.role.name,
+          rolePermissions: res.data.role.permissions
+        }
+      }).catch(e => {
+        return this.$nuxt.error({statusCode: 404, message: e.response.data.message})
       })
     }
   }

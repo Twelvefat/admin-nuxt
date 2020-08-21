@@ -1,5 +1,21 @@
 <template>
   <div>
+      <div :style="{marginBottom:'30px'}">
+        <a-breadcrumb>
+          <a-breadcrumb-item>
+            <nuxt-link to="/" title="Dashboard">
+              <a-icon type="home" />
+            </nuxt-link>
+          </a-breadcrumb-item>
+          <a-breadcrumb-item>
+            <nuxt-link to="/admin/role">
+              <a-icon type="lock" />
+              <span :style="{marginLeft:'5px'}">Role</span>
+            </nuxt-link>
+          </a-breadcrumb-item>
+          <a-breadcrumb-item>Create</a-breadcrumb-item>
+        </a-breadcrumb>
+    </div>
     <a-form :form="form" layout="vertical" @submit="addRole">
       <a-row :gutter="16">
         <a-col span="8">
