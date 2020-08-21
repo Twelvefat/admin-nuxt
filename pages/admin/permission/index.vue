@@ -86,6 +86,8 @@ export default {
           this.loading = false;
           this.data = res.data.data;
           this.pagination = pagination;
+      }).catch(e => {
+        return this.$nuxt.error({statusCode: e.response.status, message: e.response.data.message})
       })
     }
   }

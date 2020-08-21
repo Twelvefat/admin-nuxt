@@ -19,7 +19,7 @@ export const actions = {
     return new Promise((resolve, reject) => {
       this.$axios.post('/user/store',{
         name: payload.name,
-        email: payload.name,
+        email: payload.email,
         password: payload.password,
         password_confirmation: payload.password_confirmation,
         role: payload.role

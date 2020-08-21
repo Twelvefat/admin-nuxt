@@ -1,5 +1,8 @@
 <template>
   <div>
+    <nuxt-link to="/admin/role/create" type="primary" icon="user-add" :style="{marginBottom: '20px'}">
+      Add Role
+    </nuxt-link>
     <a-table
       :columns="columns"
       :row-key="record => record.id"
@@ -67,9 +70,16 @@ export default {
     },
     onDelete(key) {
       this.$axios.delete(`/role/${key}`).then(res => {
+        console.log(res)
+        let page = this.pagination.current
+        let total = this.pagination.total - 1
+        if(total%10 === 0){
+          page = this.pagination.current - 1
+        }
         this.fetch({
-          page: this.pagination.current
+          page: page
         });
+        this.$message.success(res.data.message)
       }).catch(err => {
         console.log(err);
       });
@@ -86,6 +96,8 @@ export default {
           this.loading = false;
           this.data = res.data.data;
           this.pagination = pagination;
+      }).catch(e => {
+        return this.$nuxt.error({statusCode: e.response.status, message: e.response.data.message})
       })
     }
   }
