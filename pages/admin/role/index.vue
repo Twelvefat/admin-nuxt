@@ -15,12 +15,15 @@
         {{$moment(created_at).format('dddd, DD MMMM YYYY')}}
       </template>
       <template slot="operation" slot-scope="text, record">
+        <nuxt-link :to="`/admin/role/${record.id}`">
+          <a-icon type="edit" class="cursor-pointer" :style="{color:'#000000'}" />
+        </nuxt-link>
         <a-popconfirm
           v-if="data.length"
           title="Sure to delete?"
           @confirm="() => onDelete(record.id)"
         >
-          <a-icon type="delete" class="cursor-pointer" />
+          <a-icon type="delete" class="cursor-pointer" :style="{color:'#000000'}"/>
         </a-popconfirm>
       </template>
     </a-table>
