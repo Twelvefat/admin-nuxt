@@ -28,14 +28,14 @@
         {{$moment(created_at).format('dddd, DD MMMM YYYY')}}
       </template>
       <template slot="operation" slot-scope="text, record">
-        <!-- <a @click="showModal(record.id)" :style="{marginRight:'10px'}" title="Detail">
+        <!-- <a @click="showModal(record.id)" :style="{marginRight:'10px'}">
           <a-icon type="profile" class="cursor-pointer" :style="{color:'#000000'}" />
         </a> -->
         <a-tooltip placement="bottom">
           <template slot="title">
             <span>Edit</span>
           </template>
-          <nuxt-link :to="`/admin/user/${record.id}`" :style="{marginRight:'10px'}" title="Edit">
+          <nuxt-link :to="`/admin/user/${record.id}`" :style="{marginRight:'10px'}">
             <a-icon type="edit" class="cursor-pointer" :style="{color:'#000000'}" />
           </nuxt-link>
         </a-tooltip>

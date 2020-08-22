@@ -32,7 +32,7 @@
           <template slot="title">
             <span>Detail</span>
           </template>
-          <a @click="showModal(record.id)" :style="{marginRight:'10px'}" title="Detail">
+          <a @click="showModal(record.id)" :style="{marginRight:'10px'}">
             <a-icon type="profile" class="cursor-pointer" :style="{color:'#000000'}" />
           </a>
         </a-tooltip>
@@ -40,7 +40,7 @@
           <template slot="title">
             <span>Edit</span>
           </template>
-          <nuxt-link :to="`/admin/role/${record.id}`" :style="{marginRight:'10px'}" title="Edit">
+          <nuxt-link :to="`/admin/role/${record.id}`" :style="{marginRight:'10px'}">
             <a-icon type="edit" class="cursor-pointer" :style="{color:'#000000'}" />
           </nuxt-link>
         </a-tooltip>

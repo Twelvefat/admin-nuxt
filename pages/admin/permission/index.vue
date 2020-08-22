@@ -32,7 +32,7 @@
           <template slot="title">
             <span>Edit</span>
           </template>
-          <nuxt-link :to="`/admin/permission/${record.id}`" :style="{marginRight:'10px'}" title="Edit">
+          <nuxt-link :to="`/admin/permission/${record.id}`" :style="{marginRight:'10px'}">
             <a-icon type="edit" class="cursor-pointer" :style="{color:'#000000'}" />
           </nuxt-link>
         </a-tooltip>
