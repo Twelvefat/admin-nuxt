@@ -6,7 +6,7 @@
         <!-- Custom icon spin -->
         <a-icon slot="indicator" type="loading" style="font-size: 24px" spin />
 
-        <h3>{{data.name | capitalize}}</h3>
+        <h2>{{data.name | capitalize}}</h2>
         <a-form-item label="Permissions">
             <a-row>
               <a-col :span="11" v-for="(permission, index) in data.rolePermissions" :key="index">
