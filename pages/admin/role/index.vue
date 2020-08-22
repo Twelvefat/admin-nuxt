@@ -52,6 +52,9 @@
 import ModalDetail from '~/components/partials/role/ModalDetail.vue'
 
 export default {
+  head: {
+    title: "Role"
+  },
   data: () => ({
     data:[],
     columns: [
@@ -64,6 +67,7 @@ export default {
       {
         title: 'Created At',
         dataIndex: 'created_at',
+        sorter: true,
         scopedSlots: { customRender: 'created_at' },
       },
       {
@@ -89,11 +93,11 @@ export default {
       pager.current = pagination.current;
       this.pagination = pager;
       this.fetch({
-        results: pagination.pageSize,
+        // results: pagination.pageSize,
         page: pagination.current,
         sortField: sorter.field,
         sortOrder: sorter.order,
-        ...filters,
+        // ...filters,
       });
     },
     onDelete(key) {
