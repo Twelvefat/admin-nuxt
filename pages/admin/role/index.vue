@@ -1,5 +1,21 @@
 <template>
   <div>
+    <div :style="{marginBottom:'30px'}">
+        <a-breadcrumb>
+          <a-breadcrumb-item>
+            <nuxt-link to="/">
+              <a-icon type="home" />
+              <span :style="{marginLeft:'5px'}">Dashboard</span>
+            </nuxt-link>
+          </a-breadcrumb-item>
+          <a-breadcrumb-item>Role</a-breadcrumb-item>
+        </a-breadcrumb>
+    </div>
+    <div :style="{marginBottom:'30px'}">
+      <nuxt-link to="/admin/role/create" type="primary" icon="user-add" :style="{marginBottom: '20px'}">
+        Create Role
+      </nuxt-link>
+    </div>
     <a-table
       :columns="columns"
       :row-key="record => record.id"
@@ -12,20 +28,48 @@
         {{$moment(created_at).format('dddd, DD MMMM YYYY')}}
       </template>
       <template slot="operation" slot-scope="text, record">
-        <a-popconfirm
-          v-if="data.length"
-          title="Sure to delete?"
-          @confirm="() => onDelete(record.id)"
-        >
-          <a-icon type="delete" class="cursor-pointer" />
-        </a-popconfirm>
+        <a-tooltip placement="bottom">
+          <template slot="title">
+            <span>Detail</span>
+          </template>
+          <a @click="showModal(record.id)" :style="{marginRight:'10px'}">
+            <a-icon type="profile" class="cursor-pointer" :style="{color:'#000000'}" />
+          </a>
+        </a-tooltip>
+        <a-tooltip placement="bottom">
+          <template slot="title">
+            <span>Edit</span>
+          </template>
+          <nuxt-link :to="`/admin/role/${record.id}`" :style="{marginRight:'10px'}">
+            <a-icon type="edit" class="cursor-pointer" :style="{color:'#000000'}" />
+          </nuxt-link>
+        </a-tooltip>
+        <a-tooltip placement="bottom">
+          <template slot="title">
+            <span>Delete</span>
+          </template>
+          <a-popconfirm
+            v-if="data.length"
+            title="Sure to delete?"
+            @confirm="() => onDelete(record.id)"
+          >
+            <a-icon type="delete" class="cursor-pointer" :style="{color:'#000000'}"/>
+          </a-popconfirm>
+        </a-tooltip>
       </template>
     </a-table>
+    <ModalDetail :visible="visibleModal" :data="dataModal"/>
   </div>
 </template>
 
 <script>
+
+import ModalDetail from '~/components/partials/role/ModalDetail.vue'
+
 export default {
+  head: {
+    title: "Role"
+  },
   data: () => ({
     data:[],
     columns: [
@@ -38,17 +82,23 @@ export default {
       {
         title: 'Created At',
         dataIndex: 'created_at',
+        sorter: true,
         scopedSlots: { customRender: 'created_at' },
       },
       {
-        title: 'Operation',
+        title: 'Action',
         dataIndex: 'operation',
         scopedSlots: { customRender: 'operation' },
       },
     ],
     pagination:{},
     loading:false,
+    visibleModal:false,
+    dataModal:{}
   }),
+  components:{
+    ModalDetail,
+  },
   mounted(){
     this.fetch()
   },
@@ -58,18 +108,25 @@ export default {
       pager.current = pagination.current;
       this.pagination = pager;
       this.fetch({
-        results: pagination.pageSize,
+        // results: pagination.pageSize,
         page: pagination.current,
         sortField: sorter.field,
         sortOrder: sorter.order,
-        ...filters,
+        // ...filters,
       });
     },
     onDelete(key) {
       this.$axios.delete(`/role/${key}`).then(res => {
+        console.log(res)
+        let page = this.pagination.current
+        let total = this.pagination.total - 1
+        if(total%10 === 0){
+          page = this.pagination.current - 1
+        }
         this.fetch({
-          page: this.pagination.current
+          page: page
         });
+        this.$message.success(res.data.message)
       }).catch(err => {
         console.log(err);
       });
@@ -86,6 +143,20 @@ export default {
           this.loading = false;
           this.data = res.data.data;
           this.pagination = pagination;
+      }).catch(e => {
+        return this.$nuxt.error({statusCode: e.response.status, message: e.response.data.message})
+      })
+    },
+    showModal(id){
+      this.visibleModal = true
+      this.$axios.get(`/role/${id}`).then(res => {
+        // Get Role Permissions
+        this.dataModal = {
+          name: res.data.role.name,
+          rolePermissions: res.data.role.permissions
+        }
+      }).catch(e => {
+        return this.$nuxt.error({statusCode: 404, message: e.response.data.message})
       })
     }
   }
