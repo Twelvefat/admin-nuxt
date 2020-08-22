@@ -1,6 +1,6 @@
 <template>
   <div>
-<a-form :form="form" layout="vertical" @submit="updatePermission">
+<a-form :form="form" layout="vertical" @submit="addPermission">
       <a-row :gutter="16">
         <a-col span="8">
           <a-form-item label="Permission Name">
@@ -13,7 +13,7 @@
       </a-row>
       <a-row>
         <a-col span="8">
-          <a-button type="primary" html-type="submit" :loading="loading">Update</a-button>
+          <a-button type="primary" html-type="submit" :loading="loading">Create</a-button>
         </a-col>
       </a-row>
     </a-form>
@@ -23,42 +23,32 @@
 <script>
 export default {
   head: {
-    title:'Update Permission'
+    title:'Create Permission'
   },
   data() {
     return {
       loading:false,
-      form: this.$form.createForm(this, { name: 'updatePermission' }),
+      form: this.$form.createForm(this, { name: 'createPermission' }),
     };
   },
-  mounted(){
-    this.getPermission()
-  },
   methods: {
-    getPermission(){
-      this.$axios.get(`/permissions/${this.$route.params.id}`).then(res => {
-        console.log(res)
-        this.form.setFieldsValue({name: res.data.name})
-      }).catch(e => {
-        return this.$nuxt.error({statusCode: e.response.status, message: e.response.data.message})
-      })
-    },
-    updatePermission(e){
+    addPermission(e){
       e.preventDefault()
       this.loading = true
       this.form.validateFields(async(err, values) => {
         if(!err){
           try{
             let data = {
-              id: this.$route.params.id,
               name: values.name,
             }
-            this.$store.dispatch('permission/UPDATE_PERMISSION', data).then((e) => {
+
+            this.$store.dispatch('permission/ADD_PERMISSION', data).then((e) => {
+              this.form.resetFields()
               this.$message.success(e.data.message);
               this.loading = false
             }).catch(e => {
-              this.$message.error(e.response.status);
               this.loading = false
+              this.$message.error(e.response.status);
             });
           }catch(e){
             // console.log(e)
