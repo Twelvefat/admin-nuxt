@@ -1,8 +1,21 @@
 <template>
   <div>
-    <nuxt-link to="/admin/user/create" type="primary" icon="user-add" :style="{marginBottom: '20px'}">
-      Add User
-    </nuxt-link>
+    <div :style="{marginBottom:'30px'}">
+        <a-breadcrumb>
+          <a-breadcrumb-item>
+            <nuxt-link to="/">
+              <a-icon type="home" />
+              <span :style="{marginLeft:'5px'}">Dashboard</span>
+            </nuxt-link>
+          </a-breadcrumb-item>
+          <a-breadcrumb-item>User</a-breadcrumb-item>
+        </a-breadcrumb>
+    </div>
+    <div :style="{marginBottom:'30px'}">
+      <nuxt-link to="/admin/user/create" type="primary" icon="user-add" :style="{marginBottom: '20px'}">
+        Add User
+      </nuxt-link>
+    </div>
     <a-table
       :columns="columns"
       :row-key="record => record.id"
@@ -15,6 +28,12 @@
         {{$moment(created_at).format('dddd, DD MMMM YYYY')}}
       </template>
       <template slot="operation" slot-scope="text, record">
+        <!-- <a @click="showModal(record.id)" :style="{marginRight:'10px'}" title="Detail">
+          <a-icon type="profile" class="cursor-pointer" :style="{color:'#000000'}" />
+        </a> -->
+        <nuxt-link :to="`/admin/user/${record.id}`" :style="{marginRight:'10px'}" title="Edit">
+          <a-icon type="edit" class="cursor-pointer" :style="{color:'#000000'}" />
+        </nuxt-link>
         <a-popconfirm
           v-if="data.length"
           title="Sure to delete?"
@@ -24,12 +43,17 @@
         </a-popconfirm>
       </template>
     </a-table>
+    <ModalDetail :visible="visibleModal" :data="dataModal"/>
   </div>
 </template>
 
 <script>
+
+// import ModalDetail from '~/components/partials/user/ModalDetail.vue'
+
 export default {
   data: () => ({
+    visibleModal:false,
     data:[],
     columns: [
       {
@@ -58,7 +82,11 @@ export default {
     ],
     pagination:{},
     loading:false,
+    dataModal:null,
   }),
+  // components: {
+  //   ModalDetail,
+  // },
   mounted(){
     this.fetch()
   },
@@ -76,7 +104,6 @@ export default {
       });
     },
     onDelete(key) {
-
       this.$axios.delete(`/user/${key}`).then(res => {
         let page = this.pagination.current
         let total = this.pagination.total - 1
@@ -103,7 +130,17 @@ export default {
           this.data = res.data.data;
           this.pagination = pagination;
       })
-    }
+    },
+    // showModal(id){
+    //   this.visibleModal = true
+    //   this.$axios.get(`/user/${id}`).then(res => {
+    //     // Get Role Permissions
+    //     console.log(res.data)
+    //     this.dataModal = res.data
+    //   }).catch(e => {
+    //     return this.$nuxt.error({statusCode: 404, message: e.response.data.message})
+    //   })
+    // }
   }
 }
 </script>

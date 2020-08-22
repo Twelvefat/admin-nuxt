@@ -85,7 +85,7 @@ export default {
         // Set default value to name field
         this.form.setFieldsValue({name: res.data.role.name})
       }).catch(e => {
-        return this.$nuxt.error({statusCode: 404, message: e.response.data.message})
+        return this.$nuxt.error({statusCode: e.response.status, message: e.response.data.message})
       })
     },
     handleChangePermissions(value){

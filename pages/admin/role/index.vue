@@ -28,10 +28,10 @@
         {{$moment(created_at).format('dddd, DD MMMM YYYY')}}
       </template>
       <template slot="operation" slot-scope="text, record">
-        <a @click="showModal(record.id)" :style="{marginRight:'10px'}" title="Edit">
+        <a @click="showModal(record.id)" :style="{marginRight:'10px'}" title="Detail">
           <a-icon type="profile" class="cursor-pointer" :style="{color:'#000000'}" />
         </a>
-        <nuxt-link :to="`/admin/role/${record.id}`" :style="{marginRight:'10px'}" title="Detail">
+        <nuxt-link :to="`/admin/role/${record.id}`" :style="{marginRight:'10px'}" title="Edit">
           <a-icon type="edit" class="cursor-pointer" :style="{color:'#000000'}" />
         </nuxt-link>
         <a-popconfirm
