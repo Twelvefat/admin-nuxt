@@ -13,7 +13,7 @@
     </div>
     <div :style="{marginBottom:'30px'}">
       <nuxt-link to="/admin/user/create" type="primary" icon="user-add" :style="{marginBottom: '20px'}">
-        Add User
+        Create User
       </nuxt-link>
     </div>
     <a-table
