@@ -28,16 +28,26 @@
         {{$moment(created_at).format('dddd, DD MMMM YYYY')}}
       </template>
       <template slot="operation" slot-scope="text, record">
-        <nuxt-link :to="`/admin/permission/${record.id}`" :style="{marginRight:'10px'}" title="Edit">
-          <a-icon type="edit" class="cursor-pointer" :style="{color:'#000000'}" />
-        </nuxt-link>
-        <a-popconfirm
-          v-if="data.length"
-          title="Sure to delete?"
-          @confirm="() => onDelete(record.id)"
-        >
-          <a-icon type="delete" class="cursor-pointer" />
-        </a-popconfirm>
+        <a-tooltip placement="bottom">
+          <template slot="title">
+            <span>Edit</span>
+          </template>
+          <nuxt-link :to="`/admin/permission/${record.id}`" :style="{marginRight:'10px'}" title="Edit">
+            <a-icon type="edit" class="cursor-pointer" :style="{color:'#000000'}" />
+          </nuxt-link>
+        </a-tooltip>
+        <a-tooltip placement="bottom">
+          <template slot="title">
+            <span>Delete</span>
+          </template>
+          <a-popconfirm
+            v-if="data.length"
+            title="Sure to delete?"
+            @confirm="() => onDelete(record.id)"
+          >
+            <a-icon type="delete" class="cursor-pointer" :style="{color:'#000000'}"/>
+          </a-popconfirm>
+        </a-tooltip>
       </template>
     </a-table>
   </div>
