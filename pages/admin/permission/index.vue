@@ -11,6 +11,11 @@
         <a-breadcrumb-item>Permissions</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
+    <div :style="{marginBottom:'30px'}">
+      <nuxt-link to="/admin/permission/create" type="primary" icon="user-add" :style="{marginBottom: '20px'}">
+        Create Permission
+      </nuxt-link>
+    </div>
     <a-table
       :columns="columns"
       :row-key="record => record.id"
