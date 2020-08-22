@@ -1,33 +1,39 @@
 <template>
   <div>
-    <a-form :form="form" layout="vertical" @submit="updateRole">
-      <a-row :gutter="16">
-        <a-col span="8">
-          <a-form-item label="Name">
-            <a-input
-              placeholder="Input role name"
-              v-decorator="['name', { rules: [{ required: true, message: 'Please input role name !' }] }]"
-            />
-          </a-form-item>
-        </a-col>
-      </a-row>
-      <a-form-item label="Permissions">
-        <a-checkbox-group v-model="permissions_check" @change="handleChangePermissions">
-          <a-row>
-            <a-col :span="5" v-for="(permission, index) in permissions" :key="index">
-              <a-checkbox :value="permission.id">
-                {{permission.name}}
-              </a-checkbox>
-            </a-col>
-          </a-row>
-        </a-checkbox-group>
-      </a-form-item>
-      <a-row>
-        <a-col span="8">
-          <a-button type="primary" html-type="submit" :loading="loading">Update</a-button>
-        </a-col>
-      </a-row>
-    </a-form>
+    <a-spin :spinning="!permissions_check.length > 0">
+
+      <!-- Custom icon spin -->
+      <a-icon slot="indicator" type="loading" style="font-size: 24px" spin />
+
+      <a-form :form="form" layout="vertical" @submit="updateRole">
+        <a-row :gutter="16">
+          <a-col span="8">
+            <a-form-item label="Name">
+              <a-input
+                placeholder="Input role name"
+                v-decorator="['name', { rules: [{ required: true, message: 'Please input role name !' }] }]"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-form-item label="Permissions">
+          <a-checkbox-group v-model="permissions_check" @change="handleChangePermissions">
+            <a-row>
+              <a-col :span="5" v-for="(permission, index) in permissions" :key="index">
+                <a-checkbox :value="permission.id">
+                  {{permission.name}}
+                </a-checkbox>
+              </a-col>
+            </a-row>
+          </a-checkbox-group>
+        </a-form-item>
+        <a-row>
+          <a-col span="8">
+            <a-button type="primary" html-type="submit" :loading="loading">Update</a-button>
+          </a-col>
+        </a-row>
+      </a-form>
+    </a-spin>
   </div>
 </template>
 <script>
