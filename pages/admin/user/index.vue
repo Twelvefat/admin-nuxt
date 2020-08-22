@@ -48,7 +48,7 @@
             title="Sure to delete?"
             @confirm="() => onDelete(record.id)"
           >
-            <a-icon type="delete" class="cursor-pointer" />
+            <a-icon type="delete" class="cursor-pointer" :style="{color:'#000000'}" />
           </a-popconfirm>
         </a-tooltip>
       </template>
