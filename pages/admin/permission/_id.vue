@@ -1,22 +1,27 @@
 <template>
   <div>
-<a-form :form="form" layout="vertical" @submit="updatePermission">
-      <a-row :gutter="16">
-        <a-col span="8">
-          <a-form-item label="Permission Name">
-            <a-input
-              placeholder="Input permission name"
-              v-decorator="['name', { rules: [{ required: true, message: 'Please input permission name !' }] }]"
-            />
-          </a-form-item>
-        </a-col>
-      </a-row>
-      <a-row>
-        <a-col span="8">
-          <a-button type="primary" html-type="submit" :loading="loading">Update</a-button>
-        </a-col>
-      </a-row>
-    </a-form>
+    <a-spin :spinning="spinning">
+      <!-- Custom icon spin -->
+      <a-icon slot="indicator" type="loading" style="font-size: 24px" spin />
+
+      <a-form :form="form" layout="vertical" @submit="updatePermission">
+        <a-row :gutter="16">
+          <a-col span="8">
+            <a-form-item label="Permission Name">
+              <a-input
+                placeholder="Input permission name"
+                v-decorator="['name', { rules: [{ required: true, message: 'Please input permission name !' }] }]"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row>
+          <a-col span="8">
+            <a-button type="primary" html-type="submit" :loading="loading">Update</a-button>
+          </a-col>
+        </a-row>
+      </a-form>
+    </a-spin>
   </div>
 </template>
 
@@ -28,6 +33,7 @@ export default {
   data() {
     return {
       loading:false,
+      spinning:false,
       form: this.$form.createForm(this, { name: 'updatePermission' }),
     };
   },
@@ -36,9 +42,10 @@ export default {
   },
   methods: {
     getPermission(){
+      this.spinning = true
       this.$axios.get(`/permissions/${this.$route.params.id}`).then(res => {
-        console.log(res)
         this.form.setFieldsValue({name: res.data.name})
+        this.spinning = false
       }).catch(e => {
         return this.$nuxt.error({statusCode: e.response.status, message: e.response.data.message})
       })
