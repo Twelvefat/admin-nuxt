@@ -43,7 +43,7 @@
         </a-popconfirm>
       </template>
     </a-table>
-    <ModalDetail :visible="visibleModal" :data="dataModal"/>
+    <!-- <ModalDetail :visible="visibleModal" :data="dataModal"/> -->
   </div>
 </template>
 
@@ -52,6 +52,9 @@
 // import ModalDetail from '~/components/partials/user/ModalDetail.vue'
 
 export default {
+  head: {
+    title: 'User'
+  },
   data: () => ({
     visibleModal:false,
     data:[],
@@ -96,11 +99,11 @@ export default {
       pager.current = pagination.current;
       this.pagination = pager;
       this.fetch({
-        results: pagination.pageSize,
+        // results: pagination.pageSize,
         page: pagination.current,
         sortField: sorter.field,
         sortOrder: sorter.order,
-        ...filters,
+        // ...filters,
       });
     },
     onDelete(key) {
@@ -124,6 +127,7 @@ export default {
           ...params
         }
       }).then(res => {
+        console.log(res)
           const pagination = {...this.pagination};
           pagination.total = res.data.total;
           this.loading = false;
